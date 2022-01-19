@@ -1,0 +1,209 @@
+#include <stdio.h>
+#include <string.h>
+
+int bookindex,memberindex;
+int t,t1;
+int cnt=0,cnt1=0;
+/*
+FILE *fptrb;
+FILE *fptrm;
+FILE *fptrb1;
+FILE *fptrm1;
+*/
+struct library{
+    int booknumber;
+    char booktitle[100];
+    char author[100];
+    int memberidbook;
+}book[100];
+
+struct member{
+    int memberid;
+    char membername[100];
+}mem[100];
+
+/*
+*fptrb=fopen("\"D:\\Pradosh\\LIBRA\\books.txt\"","r");
+*fptrm= fopen("\"D:\\Pradosh\\LIBRA\\members.txt\"","r");
+void init(){
+    while(1){
+        fscanf(fptrb,"%s\t%s\t%s\t%d\n",book[cnt].booknumber,book[cnt].booktitle,book[cnt].author,book[cnt].memeberidbook);
+        if (feof(fptrb))
+            break;
+        cnt++;
+    }
+    while(1){
+        fscanf(fptrb,"%d\t%s\n",&mem[cnt1].memberid,mem[cnt1].membername);
+        if (feof(fptrb))
+            break;
+        cnt1++;
+    }
+    fclose(fptrb);
+    fclose(fptrm);
+}
+*/
+
+void addbook(){
+    printf("Enter Book Number : ");
+    scanf("%d",&book[cnt].booknumber);
+    printf("Enter Book Title : ");
+    scanf("%s",book[cnt].booktitle);
+    printf("Enter Author : ");
+    scanf("%s",book[cnt].author);
+    printf("BOOK ADDED SUCCESSFULLY \n %d \t %s \t %s\n",book[cnt].booknumber,book[cnt].booktitle,book[cnt].author);
+    cnt+=1;
+    //*fptrb1=fopen("\"D:\\Pradosh\\LIBRA\\books.txt\"","a");
+    //fprintf(fptrb1,"%d\t%s\t%s\n",book[cnt].booknumber,book[cnt].booktitle,book[cnt].author);
+    //fclose(fptrb1);
+}
+
+void addmember(){
+    printf("Enter Member ID : ");
+    scanf("%d",&mem[cnt1].memberid);
+    printf("Enter Member name : ");
+    scanf("%s",mem[cnt1].membername);
+    printf("MEMBER ADDED SUCCESSFULLY \n %d \t %s\n",mem[cnt1].memberid,mem[cnt1].membername);
+    cnt1+=1;
+    //*fptrm1=fopen("\"D:\\Pradosh\\LIBRA\\members.txt\"","a");
+    //fprintf(fptrm1,"%d\t%s\n",mem[cnt1].memberid,mem[cnt1].membername);
+    //fclose(fptrm1);
+}
+
+void findbook(){
+    int bn,i;
+    while (1) {
+        printf("Enter Book Number (Enter only INTEGER value) : ");
+        scanf("%d",&bn);
+        for (i = 0; i < cnt; i++) {
+            if (book[i].booknumber == bn) {
+                bookindex = i;
+                t = 3;
+                break;
+            }
+        }
+        if (book[0].booknumber == 0) {
+            t = 4;
+            printf("ERROR:NO BOOKS EXIST KINDLY ADD BOOKS\n");
+        }
+        if (bookindex!=i) {
+            printf("Invalid Book Number \n Press 1 to try again or 2 to go back to OPTIONS");
+            scanf("%d", &t);
+            if (t==1)
+                continue;
+            else
+                break;
+        }
+        break;
+    }
+}
+
+void findmember(){
+    int mn,n;
+    while (1) {
+        printf("Enter Member ID (Enter only INTEGER value) : ");
+        scanf("%d", &mn);
+         for (n=0;n<cnt1;n++) {
+            if (mem[n].memberid==mn) {
+                memberindex=n;
+                t1=3;
+                break;
+            }
+        }
+        if (mem[0].memberid==0) {
+            t1 = 4;
+            printf("ERROR:NO MEMBERS EXIST KINDLY ADD MEMBERS\n");
+        }
+        if (memberindex!=n) {
+            printf("Invalid Member ID \n Press 1 to try again or 2 to go back to OPTIONS");
+            scanf("%d", &t1);
+            if (t1==1)
+                continue;
+            else
+                break;
+        }
+        break;
+    }
+}
+
+int issuebook(){
+    findbook();
+    if (t==3)
+    findmember();
+    if (t1==3) {
+        book[bookindex].memberidbook = mem[memberindex].memberid;
+        printf("BOOK ISSUED SUCCESSFULLY\n");
+        printf("The following book has been issued to MEMBER ID:%d\tMEMBER NAME:%s\n", mem[memberindex].memberid,mem[memberindex].membername);
+        printf("%d\t%s\t%s\n", book[bookindex].booknumber, book[bookindex].booktitle, book[bookindex].author);
+    }
+}
+
+int returnbook(){
+    findbook();
+    if (t==3) {
+        book[bookindex].memberidbook = 0;
+        printf("BOOK RETURNED SUCCESSFULLY\n");
+        printf("The following book has been returned\n");
+        printf("%d\t%s\t%s\n", book[bookindex].booknumber, book[bookindex].booktitle, book[bookindex].author);
+    }
+}
+
+void viewallbooks(){
+    int i;
+    printf("FORMAT:BOOKNUMBER, BOOKTITLE, AUTHOR, MEMBER ID (0 if book hasn't been issued)\n");
+    for (i=0;i<cnt;i++)
+        printf("%d) %d\t%s\t%s\t%d\n",i+1,book[i].booknumber,book[i].booktitle,book[i].author,book[i].memberidbook);
+}
+
+void viewallmembers(){
+    int i;
+    printf("FORMAT:MEMBER ID,MEMBER NAME\n");
+    for (i=0;i<cnt1;i++)
+        printf("%d) %d\t%s\n",i+1,mem[i].memberid,mem[i].membername);
+}
+
+void main() {
+    int op;
+    char user[10], pass[10];
+    //init();
+    printf("\t\t\t LIBRA\n");
+        while (1) {
+        printf(" ENTER USERNAME : ");
+        scanf("%s", user);
+        printf("ENTER PASSWORD : ");
+        scanf("%s", pass);
+        if (strcmp(user, "admin") == 0 && strcmp(pass, "admin") == 0) {
+            printf("ACCESS GRANTED\n\t\tWELCOME TO LIBRA\n");
+            break;
+        } else {
+            printf("INVALID CREDENTIALS TRY AGAIN\n\n");
+            continue;
+        }
+    }
+    while (1) {
+        printf("OPTIONS \n 1.ISSUE BOOK \n 2.RETURN BOOK \n 3.ADD BOOK \n 4.ADD MEMBER \n 5.VIEW ALL BOOKS \n 6.VIEW ALL MEMBERS\n Press any other number to exit \n Enter integer value: ");
+        scanf("%d",&op);
+        switch (op) {
+            case 1:
+                issuebook();
+                continue;
+            case 2:
+                 returnbook();
+                continue;
+            case 3:
+                addbook();
+                continue;
+            case 4:
+                addmember();
+                continue;
+            case 5:
+                viewallbooks();
+                continue;
+            case 6:
+                viewallmembers();
+                continue;
+            default:
+                break;
+        }
+        break;
+    }
+}
