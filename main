@@ -31,7 +31,7 @@ void init(){
         if (feof(fptrb))
             break;
         cnt++;
-    }
+    } 
     while(1){
         fscanf(fptrb,"%d\t%s\n",&mem[cnt1].memberid,mem[cnt1].membername);
         if (feof(fptrb))
